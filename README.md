@@ -26,6 +26,7 @@ As for the `HS256_KEY`, consider using a cryptographically secure generator to c
 ```python
 from secrets import token_hex
 key = token_hex(32)
+print(key)
 ```
 
 ## Protocol endpoints
