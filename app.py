@@ -72,3 +72,6 @@ def get_user_info():
         user_id, user_email, user_name = (fetch_user(access_token["sub"], fields=["id", "email", "name"]))
         user_info = {"user_id": user_id, "user_email": user_email, "user_name": user_name}
         return user_info, 200
+
+
+app.run(debug=True)
