@@ -10,7 +10,7 @@ key = os.getenv("HS256_KEY")
 
 
 class AuthorizationCode:
-    """Handles the authorization code and access token."""
+    """Handles the authorization code."""
 
     def __init__(self):
         self.value = None
