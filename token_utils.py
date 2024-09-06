@@ -13,6 +13,7 @@ class AuthorizationCode:
     """Handles the authorization code."""
 
     def __init__(self):
+        """Initializes authorization code attributes."""
         self.value = None
         self.client_id = None
         self.email = None
@@ -36,6 +37,7 @@ class AuthorizationCode:
 
 
 def generate_jwt(audience, subject):
+    """Generates a JWT for use as the access token."""
     now = time()
     duration = 3600
     expiration = now + duration
@@ -45,5 +47,6 @@ def generate_jwt(audience, subject):
 
 
 def verify_jwt(encoded_token):
+    """Verifies the validity of a provided JWT access token."""
     decoded_token = jwt.decode(encoded_token, key, algorithms="HS256", options={"verify_aud": False})
     return decoded_token
