@@ -4,6 +4,7 @@ from pathlib import Path
 db_path = Path(__file__).parent.resolve() / "database.db"
 conn = sqlite3.connect(db_path, check_same_thread=False)
 
+
 def fetch_client(client_id, fields):
     """Queries the database for client data."""
     columns = ", ".join(fields)
