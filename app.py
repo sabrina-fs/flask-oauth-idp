@@ -1,3 +1,4 @@
+import jwt
 from flask import Flask, request, render_template, redirect
 from flask_talisman import Talisman
 from talisman_settings import talisman_settings
@@ -47,10 +48,13 @@ def get_access_token():
     """Exchanges authorization code for access token."""
     req = request.get_json()
 
-    if not validate_client(req):
-        return "Invalid client.", 403
-    if not authorization_code.validate(req["client_id"], req["code"]):
-        return "Invalid authorization code.", 403
+    try:
+        if not validate_client(req):
+            return "Invalid client.", 403
+        if not authorization_code.validate(req["client_id"], req["code"]):
+            return "Invalid authorization code.", 403
+    except KeyError:
+        return "Bad request.", 400
 
     authorization_code.exp = 0
     access_token = generate_jwt(audience=req["client_id"], subject=authorization_code.email)
@@ -66,7 +70,7 @@ def get_user_info():
 
     try:
         access_token = verify_jwt(req_token)
-    except:
+    except jwt.PyJWTError:
         return "Invalid access token.", 403
     else:
         user_id, user_email, user_name = (fetch_user(access_token["sub"], fields=["id", "email", "name"]))
