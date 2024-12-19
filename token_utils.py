@@ -21,7 +21,7 @@ class AuthorizationCode:
         self.exp = None
 
     def generate(self, client_id, email, exp):
-        """Generates a new authorization code or access token, valid for a specific client and user combination."""
+        """Generates a new authorization code valid for a specific client and user combination."""
         self.client_id = client_id
         self.value = f"{token_hex(32)}"
         self.email = email
@@ -29,7 +29,7 @@ class AuthorizationCode:
         self.exp = exp
 
     def validate(self, client_id, value):
-        """Validates if a request's token is legitimate, issued for the requesting client, and not expired."""
+        """Verifies if an authorization code is correct, issued for the requesting client, and not expired."""
         if (client_id != self.client_id) or (value != self.value) or (int(time()) > self.iat + self.exp):
             return False
         else:
