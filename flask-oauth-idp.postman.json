@@ -1,0 +1,148 @@
+{
+	"info": {
+		"_postman_id": "f9c2e26f-e9e5-465b-9376-1b85aaad91b9",
+		"name": "flask-oauth-idp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15603481"
+	},
+	"item": [
+		{
+			"name": "Get login page",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/oauth/auth?client_id={{client_id}}&state={{RandomValue}}&redirect_uri={{redirect_uri}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"oauth",
+						"auth"
+					],
+					"query": [
+						{
+							"key": "client_id",
+							"value": "{{client_id}}"
+						},
+						{
+							"key": "state",
+							"value": "{{RandomValue}}"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "{{redirect_uri}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Perform login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "{{email}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/oauth/auth?client_id={{client_id}}&state={{SameValueSentOnGetLoginPage}}&redirect_uri={{redirect_uri}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"oauth",
+						"auth"
+					],
+					"query": [
+						{
+							"key": "client_id",
+							"value": "{{client_id}}"
+						},
+						{
+							"key": "state",
+							"value": "{{SameValueSentOnGetLoginPage}}"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "{{redirect_uri}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get access token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"code\": \"{{authorization_code}}\",\r\n    \"client_id\": \"{{client_id}}\",\r\n    \"client_secret\": \"{{client_secret}}\",\r\n    \"redirect_uri\": \"{{redirect_uri}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/oauth/get-access-token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"oauth",
+						"get-access-token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user info",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5000/oauth/get-user-info",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"oauth",
+						"get-user-info"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
